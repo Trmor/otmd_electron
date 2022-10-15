@@ -5,3 +5,6 @@
  * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
  * to expose Node.js functionality from the main process.
  */
+const DBC = require('./DBController.js');
+DBC.getUsers();
+DBC.getCarriage();

@@ -1,32 +1,30 @@
 const DB = require("./DB.js");
 const DBC = require("./DBController.js");
-const Sequelize = require("sequelize");
 
-module.exports.userFind = function(){
-    DB.User.findAll({
-    raw: true,
+async function getUsers(){ 
+const users = await DB.User.findAll({
     include: {
         model :DB.AccessLevel, 
         required: false,
-    }
-    }).then(users=>{
-        console.log(users);
-    });
-};
+    }});
+    console.log(JSON.stringify(users, null, 2));
+}
 
-module.exports.carriageFind = function(){
-    DB.Carriage.findAll({
-        raw:true,
-        include:{
-            model:DB.CarriageType,
-            model:DB.CarriageStatus,
-            model:DB.Cargo,
-                include:{
-                    model:DB.CargoType
-                }
-        }
-    }).then(carriages=>{
-        console.log(carriages);
-    });
-};
+async function getCarriage(){
+const carriages = await DB.Carriage.findAll({
+    raw:true,
+    include:{
+        model:DB.CarriageType,
+        model:DB.CarriageStatus,
+        model:DB.Cargo,
+            include:{
+                model:DB.CargoType
+            }
+    }});
+    console.log(JSON.stringify(carriages, null, 2));
+}
 
+module.exports = {
+    getUsers,
+    getCarriage,
+}
