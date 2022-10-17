@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список составов</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <form action="/" method="GET">
+      <button>Пользователи</button>
+    </form>
+    <h1>Список составов</h1>
+    <p><a href="/create">Добавить пользователя</a></p>
+    <table>
+        <tr><th>Id</th><th>Name</th><th></th></tr>
+        {{#each users}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.name}}</td>
+                <td>
+                    <a href="/edit/{{this.id}}">Edit</a>|
+                    <form action="delete/{{this.id}}" method="POST" style="display:inline;">
+                        <input type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<html>

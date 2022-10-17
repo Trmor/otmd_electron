@@ -193,10 +193,6 @@ Train.hasMany(Carriage);
 Carriage.belongsTo(Train);
 }
 
-// sequelize.sync().then(result=>console.log(result))
-// .catch(err=> console.log(err));
-
-
 //exports to DBC
 module.exports = {
     StartingStation,
@@ -210,5 +206,6 @@ module.exports = {
     Cargo,
     CargoType,
     Train,
-    Shipment
+    Shipment,
+    sequelize
 };
