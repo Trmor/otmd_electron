@@ -1,14 +1,24 @@
 const DB = require("./DB");
 const Sequelize = require("sequelize");
 const express = require("express");
-
+const expressHbs = require("express-handlebars");
+const hbs = require("hbs");
 const app = express();
 const urlencodedParser = express.urlencoded({extended: false});
  
 const sequelize = DB.sequelize;
 
+app.engine("hbs", expressHbs.engine(
+  {
+      layoutsDir: "views/layouts", 
+      defaultLayout: "layout",
+      extname: "hbs"
+  }
+))
+hbs.registerPartials(__dirname + "/views/partials");
+
 app.set("view engine", "hbs");
- 
+
 // синхронизация с бд, после успшной синхронизации запускаем сервер
 sequelize.sync().then(()=>{
   app.listen(3000, function(){
