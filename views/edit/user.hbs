@@ -1,0 +1,26 @@
+<body>
+    <div style = "position:relative; left:6px;">
+        <h1>Редактирование пользователя</h1>
+        <form action="/edit/user" method="POST">
+            <input type="hidden" name="id" value="{{user.id}}" />
+            <label>ФИО</label><br>
+            <input name="name" value="{{user.name}}"  class="field" /><br><br>
+            <label>Уровень доступа</label><br>
+            <select name="accesslevel" required>
+                {{#with user}}
+                <option value = "{{'accesslevel.id'}}" disabled>{{'accesslevel.name'}}</option>
+                <option value = "2">User</option>
+                <option value = "3">Operator</option>
+                {{/with}}
+            </select>
+            <p></p>
+            <div style = "display: flex;">
+            <input class="btn btn-success" type="submit" value="Отправить" />
+            </div>
+        </form>
+
+        <form action="/" method="GET" style="display:inline;">
+            <input class="btn btn-secondary" type="submit" value="Вернуться" />
+        </form>
+    </div>
+</body>

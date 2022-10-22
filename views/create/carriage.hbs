@@ -1,0 +1,36 @@
+<body>
+    <div style = "position:relative; left:6px;">
+        <h1>Добавление состава</h1>
+        <form method="POST">
+            <label>Номер вагона</label><br>
+            <input name="id" class="field" required/><br><br>
+
+            <label>Состояние</label><br>
+            <select name="carriagestatus" class="field" required>
+                {{#each carriage.[0]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+            
+            <label>Тип вагона</label><br>
+            <select name="carriagetype" class="field" required>
+                {{#each carriage.[1]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+            <label>Груз</label><br>
+            <select name="cargo" class="field" required>
+                {{#each carriage.[2]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+            </select><br><br>
+            <br><br>
+            <input type="submit" value="Отправить" />
+        </form>
+
+        <form action="/carriages" method="GET" style="display:inline;">
+            <input type="submit" value="Вернуться" />
+        </form>
+    </div>
+</body>

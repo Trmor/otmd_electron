@@ -1,0 +1,24 @@
+<body>
+    <div style = "position:relative; left:6px;">
+    <h1>Список пользователей</h1>
+    <p><a class = "btn btn-secondary" href="/create/user">Добавить пользователя</a></p>
+    </div>
+    <table class = "table">
+        <tr><th>Id</th><th>Name</th><th>Access Level</th><th></th></tr>
+        {{#each users}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{'accesslevel.name'}}</td>
+                <td>
+                    <form action="edit/user/{{this.id}}" method="GET" style="display:inline;">
+                        <input class="btn btn-success" type="submit" value="Edit" />
+                    </form>
+                    <form action="delete/user/{{this.id}}" method="POST" style="display:inline;">
+                        <input class="btn btn-danger" type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</body>

@@ -26,40 +26,56 @@ sequelize.sync().then(()=>{
   });
 }).catch(err=>console.log(err));
  
-// получение данных
+//users module
+{
 app.get("/", function(req, res){
-    DB.User.findAll({raw: true }).then(data=>{
-      res.render("index.hbs", {
+    DB.User.findAll(
+      {
+        include: { 
+          model: DB.AccessLevel,
+        },
+        raw: true,
+      },
+      ).then(data=>{
+      console.log(data);
+      res.render("view/index.hbs", {
         users: data
       });
     }).catch(err=>console.log(err));
 });
- 
-app.get("/create", function(req, res){
-    res.render("create.hbs");
-});
-app.get("/carriages", function(req, res){
-    res.render("carriages.hbs");
+
+app.get("/create/user", function(req, res){
+  DB.AccessLevel.findAll({raw:true}).then(data=>{
+    console.log(data);
+    res.render("create/user.hbs", {accesslevels: data})})
+  .catch(err=>console.log(err));
 });
  
 // добавление данных
-app.post("/create", urlencodedParser, function (req, res) {
+app.post("/create/user", urlencodedParser, function (req, res) {
          
     if(!req.body) return res.sendStatus(400);
-         
+    
     const username = req.body.name;
-    const userage = req.body.age;
-    DB.User.create({ name: username, age: userage}).then(()=>{
+    const password = req.body.password;
+    const accesslevel = req.body.accesslevel;
+    DB.User.create({ name: username, password: password, accesslevelId: accesslevel}).then(()=>{
       res.redirect("/");
     }).catch(err=>console.log(err));
 });
  
 // получаем объект по id для редактирования
-app.get("/edit/:id", function(req, res){
+app.get("/edit/user/:id", function(req, res){
   const userid = req.params.id;
-  DB.User.findAll({where:{id: userid}, raw: true })
+  DB.User.findAll({where:{id: userid},
+    include: { 
+    model: DB.AccessLevel,
+  }, 
+  raw: true,
+  })
   .then(data=>{
-    res.render("edit.hbs", {
+    console.log(data);
+    res.render("edit/user.hbs", {
       user: data[0]
     });
   })
@@ -67,23 +83,70 @@ app.get("/edit/:id", function(req, res){
 });
  
 // обновление данных в БД
-app.post("/edit", urlencodedParser, function (req, res) {
+app.post("/edit/user", urlencodedParser, function (req, res) {
          
   if(!req.body) return res.sendStatus(400);
  
   const username = req.body.name;
-  const userage = req.body.age;
+  const accesslevel = req.body.accesslevel;
   const userid = req.body.id;
-  DB.User.update({name:username, age: userage}, {where: {id: userid} }).then(() => {
+  DB.User.update({name:username, accesslevelId: accesslevel}, {where: {id: userid} }).then(() => {
     res.redirect("/");
   })
   .catch(err=>console.log(err));
 });
  
 // удаление данных
-app.post("/delete/:id", function(req, res){  
+app.post("/delete/user/:id", function(req, res){  
   const userid = req.params.id;
   DB.User.destroy({where: {id: userid} }).then(() => {
     res.redirect("/");
   }).catch(err=>console.log(err));
 });
+}
+
+//carriages module
+{
+app.get("/carriages", function(req, res){
+  DB.Carriage.findAll(
+    {
+      include:[
+        {model: DB.CarriageStatus},
+        {model: DB.CarriageType},
+        {model: DB.Cargo, 
+          include: DB.CargoType,
+        },
+      ],
+    raw: true,
+    }
+  ).then(data=>{
+    res.render("view/carriages.hbs",{
+      carriages: data
+    });
+  }).catch(err=>console.log(err));
+});
+
+app.get("/create/carriage", function(req, res){
+  let cargo; let carriagestatus; let carriagetype;
+  carriagestatus = DB.CarriageStatus.findAll({raw:true});
+  carriagetype = DB.CarriageType.findAll({raw:true});
+  cargo = DB.Cargo.findAll({raw:true});
+  Promise.all([carriagestatus, carriagetype, cargo]).then(data=>{
+    console.log(data);
+    res.render("create/carriage.hbs", {carriage:data})
+  }).catch(err=>console.log(err));
+});
+
+app.post("/create/carriage", urlencodedParser, function(req, res){
+
+  if(!req.body) return res.sendStatus(400);
+ 
+  const name = req.body.name;
+  const accesslevel = req.body.accesslevel;
+  const carriageid = req.body.id;
+  DB.Carriage.update({поля}, {where: {id: carriageid} }).then(() => {
+    res.redirect("/carriages");
+  })
+  .catch(err=>console.log(err));
+});
+}

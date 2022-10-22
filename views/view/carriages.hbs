@@ -1,0 +1,26 @@
+<body>
+    <div style = "position:relative; left:6px;">
+    <h1>Список составов</h1>
+    <p><a href="/create/carriage" class="btn btn-secondary" >Добавить состав</a></p>
+    </div>
+    <table class="table">
+        <tr><th>Номер вагона</th><th>Состояние</th><th>Тип вагона</th><th>Груз</th><th>Тип Груза</th><th></th></tr>
+        {{#each carriages}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{'carriagestatus.name'}}</td>
+                <td>{{'carriagetype.name'}}</td>
+                <td>{{'cargo.name'}}</td>
+                <td>{{'cargo.cargotype.name'}}</td>
+                <td>
+                    <form action="edit/carriage/{{this.id}}" method="POST" style="display:inline;">
+                        <input class="btn btn-success" type="submit" value="Edit" />
+                    </form>
+                    <form action="delete/carriage/{{this.id}}" method="POST" style="display:inline;">
+                        <input class="btn btn-danger" type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
