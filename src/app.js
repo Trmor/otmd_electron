@@ -67,16 +67,17 @@ app.post("/create/user", urlencodedParser, function (req, res) {
 // получаем объект по id для редактирования
 app.get("/edit/user/:id", function(req, res){
   const userid = req.params.id;
-  DB.User.findAll({where:{id: userid},
+  const user = DB.User.findAll({where:{id: userid},
     include: { 
     model: DB.AccessLevel,
   }, 
   raw: true,
-  })
-  .then(data=>{
+  });
+  const accesslevel = DB.AccessLevel.findAll({raw: true});
+  Promise.all([user, accesslevel]).then(data=>{
     console.log(data);
     res.render("edit/user.hbs", {
-      user: data[0]
+      user: data
     });
   })
   .catch(err=>console.log(err));
@@ -127,11 +128,12 @@ app.get("/carriages", function(req, res){
 });
 
 app.get("/create/carriage", function(req, res){
-  let cargo; let carriagestatus; let carriagetype;
+  let train; let cargo; let carriagestatus; let carriagetype;
+  train = DB.Train.findAll({raw:true});
   carriagestatus = DB.CarriageStatus.findAll({raw:true});
   carriagetype = DB.CarriageType.findAll({raw:true});
   cargo = DB.Cargo.findAll({raw:true});
-  Promise.all([carriagestatus, carriagetype, cargo]).then(data=>{
+  Promise.all([train, carriagestatus, carriagetype, cargo]).then(data=>{
     console.log(data);
     res.render("create/carriage.hbs", {carriage:data})
   }).catch(err=>console.log(err));
@@ -141,12 +143,79 @@ app.post("/create/carriage", urlencodedParser, function(req, res){
 
   if(!req.body) return res.sendStatus(400);
  
-  const name = req.body.name;
-  const accesslevel = req.body.accesslevel;
-  const carriageid = req.body.id;
-  DB.Carriage.update({поля}, {where: {id: carriageid} }).then(() => {
+  const id = req.body.id;
+  const train = req.body.train;
+  const carriagestatus = req.body.carriagestatus;
+  const carriagetype = req.body.carriagetype;
+  const cargo = req.body.cargo;
+  DB.Carriage.create( {
+    id: id,
+    carriagetypeId:carriagetype,
+    carriagestatusId:carriagestatus,
+    cargoId: cargo,
+    train: train
+  }  ).then(() => {
     res.redirect("/carriages");
   })
   .catch(err=>console.log(err));
 });
+
+app.get("/edit/carriage/:id", function(req, res){
+  const id = req.params.id;
+  let carriage;let train; let carriagestatus; let carriagetype; let cargo; 
+  carriagestatus = DB.CarriageStatus.findAll({raw: true});
+  carriagetype = DB.CarriageType.findAll({raw: true});
+  cargo = DB.Cargo.findAll({raw: true});
+  train = DB.Train.findAll({raw: true});
+  carriage = DB.Carriage.findAll({where:{id: id},
+    include:[
+      {model: DB.CarriageStatus},
+      {model: DB.CarriageType},
+      {model: DB.Cargo}
+    ],
+  raw: true
+  });
+  Promise.all([carriage, train, carriagestatus, carriagetype, cargo]).then(data=>{
+    console.log(data);
+    res.render("edit/carriage.hbs", {
+      carriage: data
+    });
+  }).catch(err=>console.log(err));
+});
+
+app.post("/edit/carriage", urlencodedParser, function (req, res) {
+         
+  if(!req.body) return res.sendStatus(400);
+ 
+  const id = req.body.id;
+  const train = req.body.train;
+  const carriagestatus = req.body.carriagestatus;
+  const carriagetype = req.body.carriagetype;
+  const cargo = req.body.cargo;
+  DB.Carriage.update(
+    {
+      carriagetypeId: carriagetype,
+      carriagestatusId: carriagestatus,
+      cargoId: cargo,
+      trainId: train
+    },
+    {
+      where: {id: id} 
+    }).then(() => {
+    res.redirect("/carriages");
+  })
+  .catch(err=>console.log(err));
+});
+
+app.post("/delete/carriage/:id", function(req, res){  
+  const carriageid = req.params.id;
+  DB.Carriage.destroy({where: {id: carriageid} }).then(() => {
+    res.redirect("/carriages");
+  }).catch(err=>console.log(err));
+});
+
+}//carriages module
+
+module.exports.close = function(){
+  sequelize.close();
 }

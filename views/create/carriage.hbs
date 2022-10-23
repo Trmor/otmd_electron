@@ -1,29 +1,35 @@
 <body>
     <div style = "position:relative; left:6px;">
-        <h1>Добавление состава</h1>
+        <h1>Добавление вагона</h1>
         <form method="POST">
             <label>Номер вагона</label><br>
             <input name="id" class="field" required/><br><br>
 
+            <label>Номер состава</label><br>
+            <select name="train" class="field" required>
+                {{#each carriage.[0]}}
+                <option value = "{{id}}">{{id}}</option>
+                {{/each}}
+            </select><br><br>
+
             <label>Состояние</label><br>
             <select name="carriagestatus" class="field" required>
-                {{#each carriage.[0]}}
+                {{#each carriage.[1]}}
                 <option value = "{{id}}">{{name}}</option>
                 {{/each}}
             </select><br><br>
             
             <label>Тип вагона</label><br>
             <select name="carriagetype" class="field" required>
-                {{#each carriage.[1]}}
+                {{#each carriage.[2]}}
                 <option value = "{{id}}">{{name}}</option>
                 {{/each}}
             </select><br><br>
             <label>Груз</label><br>
             <select name="cargo" class="field" required>
-                {{#each carriage.[2]}}
+                {{#each carriage.[3]}}
                 <option value = "{{id}}">{{name}}</option>
                 {{/each}}
-            </select>
             </select><br><br>
             <br><br>
             <input type="submit" value="Отправить" />

@@ -2,16 +2,17 @@
     <div style = "position:relative; left:6px;">
         <h1>Редактирование пользователя</h1>
         <form action="/edit/user" method="POST">
-            <input type="hidden" name="id" value="{{user.id}}" />
+            <input type="hidden" name="id" value="{{user.[0].[0].id}}" />
             <label>ФИО</label><br>
-            <input name="name" value="{{user.name}}"  class="field" /><br><br>
+            <input name="name" value="{{user.[0].[0].name}}"  class="field" /><br><br>
             <label>Уровень доступа</label><br>
             <select name="accesslevel" required>
-                {{#with user}}
+                {{#each user.[0]}}
                 <option value = "{{'accesslevel.id'}}" disabled>{{'accesslevel.name'}}</option>
-                <option value = "2">User</option>
-                <option value = "3">Operator</option>
-                {{/with}}
+                {{/each}}
+                {{#each user.[1]}}
+                <option value = "{{id}}" >{{name}}</option>
+                {{/each}}
             </select>
             <p></p>
             <div style = "display: flex;">
