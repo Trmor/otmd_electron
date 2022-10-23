@@ -1,0 +1,28 @@
+<body>
+    <div style = "position:relative; left:6px;">
+        <h1>Редактирование груза</h1>
+        <form action="/edit/cargo" method="POST">
+            <input type ="hidden" name="id" value="{{cargo.[0].[0].id}}" />
+
+            <label>Название</label><br>
+            <input name="name" class = "field" value="{{cargo.[0].[0].name}}"><br><br>
+
+            <label>Тип груза</label><br>
+            <select name="cargotype">
+                {{#each cargo.[0]}}
+                <option value = "{{'cargotypeId'}}">{{'cargotype.name'}}</option>
+                {{/each}}
+                {{#each cargo.[1]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+            <div style = "display: flex;">
+            <input class="btn btn-success" type="submit" value="Отправить" />
+            </div>
+        </form>
+
+        <form action="/cargos" method="GET" style="display:inline;">
+            <input class="btn btn-secondary" type="submit" value="Вернуться" />
+        </form>
+    </div>
+</body>

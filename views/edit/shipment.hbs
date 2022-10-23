@@ -1,0 +1,67 @@
+<body>
+    <div style = "position:relative; left:6px;">
+        <h1>Редактирование отправки</h1>
+        <form action="/edit/shipment" method="POST">
+            <input type ="hidden" name="id" value="{{shipment.[0].[0].id}}" />
+
+            <label>Пользователь</label><br>
+            <select name="user">
+                {{#each shipment.[0]}}
+                <option value = "{{'userId'}}" >{{'user.name'}}</option>
+                {{/each}}
+                {{#each shipment.[1]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+
+            <label>Станция отправки</label><br>
+            <select name="startingstation">
+                {{#each shipment.[0]}}
+                <option value = "{{startingstationId}}" >{{'startingstation.name'}}</option>
+                {{/each}}
+                {{#each shipment.[2]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+            
+            <label>Станция получатель</label><br>
+            <select name="destinationstation">
+                {{#each shipment.[0]}}
+                <option value = "{{destinationstationId}}" >{{'destinationstation.name'}}</option>
+                {{/each}}
+                {{#each shipment.[3]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+
+            <label>Состав</label><br>
+            <select name="train">
+                {{#each shipment.[0]}}
+                <option value = "{{trainId}}" >{{trainId}}</option>
+                {{/each}}
+                {{#each shipment.[4]}}
+                <option value = "{{id}}">{{id}}</option>
+                {{/each}}
+            </select><br><br>
+
+            <label>Состояние</label><br>
+            <select name="shipmentstatus">
+                {{#each shipment.[0]}}
+                <option value = "{{shipmentstatusId}}" >{{'shipmentstatus.name'}}</option>
+                {{/each}}
+                {{#each shipment.[5]}}
+                <option value = "{{id}}">{{name}}</option>
+                {{/each}}
+            </select><br><br>
+
+            <br><br>
+            <div style = "display: flex;">
+            <input class="btn btn-success" type="submit" value="Отправить" />
+            </div>
+        </form>
+
+        <form action="/shipments" method="GET" style="display:inline;">
+            <input class="btn btn-secondary" type="submit" value="Вернуться" />
+        </form>
+    </div>
+</body>

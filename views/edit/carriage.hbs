@@ -7,7 +7,7 @@
             <label>Номер состава</label><br>
             <select name="train">
                 {{#each carriage.[0]}}
-                <option value = "{{trainId}}" disabled>{{trainId}}</option>
+                <option value = "{{trainId}}" >{{trainId}}</option>
                 {{/each}}
                 {{#each carriage.[1]}}
                 <option value = "{{id}}">{{id}}</option>
@@ -17,7 +17,7 @@
             <label>Состояние</label><br>
             <select name="carriagestatus">
                 {{#each carriage.[0]}}
-                <option value = "{{carriagestatusId}}" disabled>{{'carriagestatus.name'}}</option>
+                <option value = "{{carriagestatusId}}" >{{'carriagestatus.name'}}</option>
                 {{/each}}
                 {{#each carriage.[2]}}
                 <option value = "{{id}}">{{name}}</option>
@@ -27,7 +27,7 @@
             <label>Тип вагона</label><br>
             <select name="carriagetype">
                 {{#each carriage.[0]}}
-                <option value = "{{carriagetypeId}}" disabled>{{'carriagetype.name'}}</option>
+                <option value = "{{carriagetypeId}}" >{{'carriagetype.name'}}</option>
                 {{/each}}
                 {{#each carriage.[3]}}
                 <option value = "{{id}}">{{name}}</option>
@@ -36,7 +36,7 @@
             <label>Груз</label><br>
             <select name="cargo">
                 {{#each carriage.[0]}}
-                <option value = "{{cargoId}}" disabled>{{'cargo.name'}}</option>
+                <option value = "{{cargoId}}" >{{'cargo.name'}}</option>
                 {{/each}}
                 {{#each carriage.[4]}}
                 <option value = "{{id}}">{{name}}</option>

@@ -1,0 +1,33 @@
+<body>
+    <div style = "position:relative; left:6px;">
+    <h1>Список отправок</h1>
+    <p><a class = "btn btn-secondary" href="/create/shipment">Добавить отправку</a></p>
+    </div>
+    <div style = "display: flexbox;">
+    <table class = "table">
+        <tr><th>Номер</th><th>Пользователь</th><th>Станция отправитель</th><th>Станция получатель</th>
+        <th>Состав</th><th>Статус</th><th>Время обновления</th><th></th><th></th></tr>
+        {{#each shipments}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{'user.name'}}</td>
+                <td>{{'startingstation.name'}}</td>
+                <td>{{'destinationstation.name'}}</td>
+                <td>{{'train.id'}}</td>
+                <td>{{'shipmentstatus.name'}}</td>
+                <td>{{updatedAt}}</td>
+                <td>
+                    <form action="edit/shipment/{{this.id}}" method="GET" style="display:inline;">
+                        <input class="btn btn-success" type="submit" value="Edit" />
+                    </form>
+                </td>
+                <td>
+                    <form action="delete/shipment/{{this.id}}" method="POST" style="display:inline;">
+                        <input class="btn btn-danger" type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+    </div>
+</body>

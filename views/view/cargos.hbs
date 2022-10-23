@@ -1,0 +1,24 @@
+<body>
+    <div style = "position:relative; left:6px;">
+    <h1>Список грузов</h1>
+    <p><a class = "btn btn-secondary" href="/create/cargo">Добавить груз</a></p>
+    </div>
+    <table class = "table">
+        <tr><th>Номер</th><th>Название</th><th>Тип Груза</th><th></th></tr>
+        {{#each cargos}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{'cargotype.name'}}</td>
+                <td>
+                    <form action="edit/cargo/{{this.id}}" method="GET" style="display:inline;">
+                        <input class="btn btn-success" type="submit" value="Edit" />
+                    </form>
+                    <form action="delete/cargo/{{this.id}}" method="POST" style="display:inline;">
+                        <input class="btn btn-danger" type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</body>

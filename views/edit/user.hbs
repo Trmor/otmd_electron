@@ -8,7 +8,7 @@
             <label>Уровень доступа</label><br>
             <select name="accesslevel" required>
                 {{#each user.[0]}}
-                <option value = "{{'accesslevel.id'}}" disabled>{{'accesslevel.name'}}</option>
+                <option value = "{{'accesslevel.id'}}">{{'accesslevel.name'}}</option>
                 {{/each}}
                 {{#each user.[1]}}
                 <option value = "{{id}}" >{{name}}</option>
